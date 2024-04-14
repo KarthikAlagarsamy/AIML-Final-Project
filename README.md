@@ -1,4 +1,5 @@
 # AIML-Final-Project
+For better view of output, kindly run (Karthik - AIML M18.ipynb) file in Google Colab
 ---
 base_model: distilbert-base-uncased
 
