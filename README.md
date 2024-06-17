@@ -1,39 +1,53 @@
 # Building and Deploying Question Answering System with Hugging Face
 For better view of output, kindly run (Karthik_AIML_M18.ipynb) file in Google Colab
 ---
-base_model: distilbert-base-uncased
+In this project, building and deploying a question-answering system using Hugging Face's powerful libraries and tools was attempted. The focus is on leveraging pre-trained models, specifically DistilBERT, fine-tuning it on the SQuAD (Stanford Question Answering Dataset), and deploying the trained model using Gradio for a user-friendly interface. The process involves several steps: installing necessary packages, loading datasets, preprocessing data, training the model, evaluating the model, and deploying the model.
 
-Fine tuned model name: distilbertfinetuneHS5E8BHLR
+## Installation of Required Libraries
 
----
+- **transformers, datasets, evaluate**: For accessing and evaluating datasets and models.
+- **transformers[torch]**: For deep learning tasks with PyTorch.
+- **accelerate**: To enable faster training on multiple GPUs.
+- **gradio**: For creating web interfaces for ML models.
 
+## Hugging Face Model Hub Interaction
 
-# distilbertfinetuneHS5E8BHLR
+- **notebook_login**: Log in to Hugging Face for accessing models and datasets.
 
-This model is a fine-tuned version of [distilbert-base-uncased](https://huggingface.co/distilbert-base-uncased) on SQuAD dataset.
+## Dataset Loading and Splitting
 
+- **load_dataset**: Load the SQuAD dataset and split it into training and testing subsets.
 
-### Training hyperparameters
+## Tokenization and Preprocessing
 
-The following hyperparameters were used during training:
-- learning_rate: 2e-05
-- train_batch_size: 8
-- eval_batch_size: 8
-- num_epochs: 5
+- **AutoTokenizer**: Load the DistilBERT tokenizer.
+- **preprocess_function**: Preprocess dataset examples, including truncation, padding, and mapping start and end tokens.
 
-### Training results
+## Dataset Mapping and Batching
 
-| Training Loss | Epoch | Step | Validation Loss |
-|:-------------:|:-----:|:----:|:---------------:|
-| 3.0251        | 1.0   | 500  | 1.7268          |
-| 1.4512        | 2.0   | 1000 | 1.4143          |
-| 0.9326        | 3.0   | 1500 | 1.4345          |
-| 0.6653        | 4.0   | 2000 | 1.5804          |
-| 0.5143        | 5.0   | 2500 | 1.6401          |
+- **map**: Apply preprocessing over the entire dataset.
+- **DefaultDataCollator**: Create batches of examples for training.
 
+## Model Initialization and Training
 
-### Framework versions
+- **AutoModelForQuestionAnswering**: Load the DistilBERT model for question answering.
+- **TrainingArguments**: Define training parameters such as learning rate, batch size, number of epochs, and weight decay.
+- **Trainer**: Train the model using the specified arguments and datasets.
 
-- Transformers 4.38.2
-- Datasets 2.18.0
-- Tokenizers 0.15.2
+## Model Training and Evaluation
+
+- **trainer.train**: Train the model.
+- **trainer.push_to_hub**: Share the trained model on Hugging Face Model Hub.
+
+## Model Inference and Evaluation
+
+- **pipeline**: Create a question-answering pipeline with the trained model.
+- Evaluate the model on a subset of the SQuAD validation dataset.
+- Compute metrics such as Exact Match (EM) and F1 Score.
+
+## Web Interface Creation with Gradio
+
+- **gr.Interface**: Create an interactive web interface for the question-answering model.
+- **iface.launch**: Launch the Gradio interface for user interaction.
+
+This system demonstrates the end-to-end process of building, training, and deploying a question-answering model using Hugging Face libraries and tools. It includes dataset preparation, model fine-tuning, evaluation, and creating a web interface for user interaction.
